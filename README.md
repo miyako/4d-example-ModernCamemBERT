@@ -18,7 +18,7 @@ $batch:=$AIClient.embeddings.create($inputs)
 $fr1:=$batch.embeddings[0].embedding
 $fr2:=$batch.embeddings[1].embedding
 
-$cosineSimilarity1:=$fr1.cosineSimilarity($fr2)
+$cosineSimilarity:=$fr1.cosineSimilarity($fr2)
 ```
 
 ##### Cosine similarity from example code above:
