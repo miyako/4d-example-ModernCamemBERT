@@ -1,5 +1,15 @@
 /*
 
+llama-server settings
+
+*/
+
+var $llama : cs:C1710.llama.llama
+var $homeFolder : 4D:C1709.Folder
+var $huggingface : cs:C1710.event.huggingface
+
+/*
+
 callbacks for downloader (alert on error)
 
 */
@@ -21,6 +31,53 @@ var $pooling : Text
 
 /*
 
+model settings (llama.cpp)
+
+use Q8_0 quantisation
+
+*/
+
+$homeFolder:=Folder:C1567(fk home folder:K87:24).folder(".GGUF")
+
+$folder:=$homeFolder.folder("ModernCamemBERT")
+$path:="moderncamembert-base-Q8_0.gguf"
+$URL:="keisuke-miyako/moderncamembert-base-gguf-q8_0"
+
+var $logFile : 4D:C1709.File
+$logFile:=$folder.file("llama.log")
+$folder.create()
+If (Not:C34($logFile.exists))
+	$logFile.setContent(4D:C1709.Blob.new())
+End if 
+var $cores; $max_position_embeddings; $batch_size; $parallel; $threads; $batches : Integer
+$cores:=System info:C1571.cores\2
+$max_position_embeddings:=512
+$batch_size:=512
+$batches:=32
+$threads:=2
+
+var $port : Integer
+$port:=8080
+$options:={\
+embeddings: True:C214; \
+pooling: "mean"; \
+log_file: $logFile; \
+ctx_size: $batch_size*$batches*$threads; \
+batch_size: $batch_size+$batches; \
+parallel: $cores; \
+threads: $threads; \
+threads_batch: $threads; \
+threads_http: $threads; \
+log_disable: False:C215; \
+n_gpu_layers: -1}
+
+$huggingface:=cs:C1710.event.huggingface.new($folder; $URL; $path)
+$huggingfaces:=cs:C1710.event.huggingfaces.new([$huggingface])
+
+$llama:=cs:C1710.llama.llama.new($port; $huggingfaces; $homeFolder; $options; $event)
+
+/*
+
 ONNX Runtime: 
 
 use int8 quantisation
@@ -32,8 +89,8 @@ $port:=8081
 $options:={pooling: "mean"}
 
 $folder:=$homeFolder.folder("ModernCamemBERT")
-$path:="moderncamembert-base-onnx-f32"
-$URL:="keisuke-miyako/moderncamembert-base-onnx-f32"
+$path:="moderncamembert-base-onnx-int8"
+$URL:="keisuke-miyako/moderncamembert-base-onnx-int8"
 
 $huggingface:=cs:C1710.event.huggingface.new($folder; $URL; $path; "embedding"; ($URL="@-f16" || ($URL="@-f32")) ? "model.onnx" : "model_quantized.onnx")
 $huggingfaces:=cs:C1710.event.huggingfaces.new([$huggingface])

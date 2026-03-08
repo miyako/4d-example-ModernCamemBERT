@@ -4,7 +4,7 @@ var $AIClient : cs:C1710.AIKit.OpenAI
 var $cosineSimilarity : Real
 $AIClient:=cs:C1710.AIKit.OpenAI.new()
 
-$AIClient.baseURL:="http://127.0.0.1:8081/v1"  // onnx-genai
+$AIClient.baseURL:="http://127.0.0.1:8080/v1"  // llama-server
 
 $inputs:=[\
 "Il m'a posé un lapin hier soir."; \
@@ -17,4 +17,4 @@ $fr1:=$batch.embeddings[0].embedding
 $fr2:=$batch.embeddings[1].embedding
 
 $cosineSimilarity:=$fr1.cosineSimilarity($fr2)
-//0.9667848377152
+//0.9412123649503
