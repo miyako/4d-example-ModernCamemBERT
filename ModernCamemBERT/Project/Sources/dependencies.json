@@ -4,12 +4,12 @@
 			"github": "4d/4D-AIKit",
 			"version": "4d"
 		},
-		"onnx genai": {
-			"github": "miyako/onnx-genai",
-			"version": "latest"
-		},
 		"llama cpp": {
 			"github": "miyako/llama-cpp",
+			"version": "latest"
+		},
+		"onnx genai": {
+			"github": "miyako/onnx-genai",
 			"version": "latest"
 		}
 	}
