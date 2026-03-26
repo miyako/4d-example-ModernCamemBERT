@@ -95,4 +95,4 @@ $URL:="keisuke-miyako/moderncamembert-base-onnx-int8"
 $huggingface:=cs:C1710.event.huggingface.new($folder; $URL; $path; "embedding"; ($URL="@-f16" || ($URL="@-f32")) ? "model.onnx" : "model_quantized.onnx")
 $huggingfaces:=cs:C1710.event.huggingfaces.new([$huggingface])
 
-//$ONNX:=cs.ONNX.ONNX.new($port; $huggingfaces; $homeFolder; $options; $event)
+$ONNX:=cs:C1710.ONNX.ONNX.new($port; $huggingfaces; $homeFolder; $options; $event)

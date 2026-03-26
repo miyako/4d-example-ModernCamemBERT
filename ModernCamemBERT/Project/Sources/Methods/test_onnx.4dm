@@ -17,4 +17,4 @@ $fr1:=$batch.embeddings[0].embedding
 $fr2:=$batch.embeddings[1].embedding
 
 $cosineSimilarity:=$fr1.cosineSimilarity($fr2)
-//0.9667848377152
+//0.9667848391739
